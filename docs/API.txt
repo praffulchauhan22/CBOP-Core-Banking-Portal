@@ -1,0 +1,90 @@
+# Internal API Documentation  
+## Core Banking Operations Portal (CBOP)
+
+---
+
+## 1. API Overview
+
+These APIs are internal and consumed by the CBOP application only.  
+All APIs are secured using JWT authentication and role-based authorization.
+
+---
+
+## 2. Authentication
+
+- Token Type: JWT
+- Transport: HTTPS
+- Header:
+  Authorization: Bearer <token>
+
+---
+
+## 3. Customer APIs
+
+### GET /api/customers
+Returns list of customers.
+
+**Access:** Teller, Manager, Auditor
+
+---
+
+### POST /api/customers
+Creates a new customer.
+
+**Access:** Teller
+
+---
+
+## 4. Account APIs
+
+### POST /api/accounts
+Opens a new account for a customer.
+
+**Access:** Teller
+
+---
+
+### GET /api/accounts/{customerId}
+Fetch accounts by customer.
+
+**Access:** Teller, Manager
+
+---
+
+## 5. Transaction APIs
+
+### POST /api/transactions
+Initiate a transaction.
+
+**Access:** Teller
+
+---
+
+### GET /api/transactions/pending-approvals
+Fetch transactions pending approval.
+
+**Access:** Manager
+
+---
+
+### POST /api/transactions/{id}/approve
+Approve or reject transaction.
+
+**Access:** Manager
+
+---
+
+## 6. Reporting APIs
+
+### GET /api/reports/daily-transactions
+Generate daily transaction report.
+
+**Access:** Auditor, Manager
+
+---
+
+## 7. Security Notes
+
+- Role validation at controller level
+- Policy checks for approvals
+- Input validation enforced

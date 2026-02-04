@@ -1,0 +1,416 @@
+Business Requirement Document (BRD)
+Core Banking Operations Portal (CBOP)
+1. Project Overview
+1.1 Purpose
+
+The Core Banking Operations Portal (CBOP) is an internal web-based application designed to support branch-level banking operations. The system enables authorized bank staff to manage customers, accounts, transactions, approvals, audits, and reports in a secure, role-based, and auditable environment.
+
+This portal is not customer-facing and will be used exclusively by internal stakeholders such as:
+
+Branch employees
+
+Branch managers
+
+Auditors
+
+System administrators
+
+1.2 Business Objectives
+
+Digitize manual branch banking operations
+
+Enforce strict role-based access control
+
+Implement maker–checker (approval) workflows
+
+Maintain complete and immutable audit trails
+
+Generate operational and regulatory reports
+
+Secure sensitive customer and transaction data
+
+1.3 Target Users
+Role	Description
+Teller	Performs day-to-day customer and transaction operations
+Branch Manager	Approves high-value transactions
+Auditor	Reviews audit logs and reports
+System Administrator	Manages users, roles, and system configuration
+2. Technology & Architecture Overview
+2.1 Technology Stack
+Layer	Technology
+UI	HTML5, CSS3, JavaScript
+Backend	ASP.NET Core MVC (.NET 8+)
+ORM	Entity Framework Core
+Database	Oracle Database (Local / XE)
+Authentication	ASP.NET Core Identity
+Authorization	Role-based + Policy-based
+Encryption	AES + ASP.NET Data Protection API
+Reporting	QuestPDF / iText7, ClosedXML
+2.2 Non-Functional Requirements
+
+Responsive UI using custom CSS and JavaScript
+
+Secure session handling
+
+Encryption of sensitive data at rest
+
+High data integrity and consistency
+
+Audit and compliance readiness
+
+Modular, maintainable, and extensible codebase
+
+3. User Roles & Permissions
+Role	Key Permissions
+Admin	User management, role assignment, system configuration
+Teller	Customer creation, account operations, transactions
+Branch Manager	Approval of high-value transactions
+Auditor	Read-only access to logs and reports
+4. Functional Requirements (Module-wise)
+4.1 Authentication & Access Control
+Business Requirements
+
+Users must authenticate before accessing the system
+
+Users must be assigned one or more roles
+
+Screen-level access must be role-restricted
+
+Automatic session timeout after inactivity
+
+Secure logout functionality
+
+Features
+
+Login
+
+Logout
+
+Password reset
+
+Role-based navigation menu
+
+4.2 User & Role Management (Admin Module)
+Business Requirements
+
+Admin can create and manage internal users
+
+Admin can assign and revoke roles
+
+Admin can lock or unlock user accounts
+
+Admin can reset user passwords
+
+Screens
+
+User List
+
+Create / Edit User
+
+Assign Roles
+
+4.3 Customer Management Module
+Business Requirements
+
+Tellers can create customer profiles
+
+Sensitive data must be encrypted at rest
+
+KYC documents must be securely uploaded and stored
+
+Customer profiles viewable only by authorized roles
+
+Customer Fields
+
+Customer ID
+
+Full Name
+
+Date of Birth
+
+PAN (Encrypted)
+
+Aadhaar (Encrypted)
+
+Mobile Number
+
+Risk Category
+
+Status (Active / Inactive)
+
+Screens
+
+Customer List
+
+Create Customer
+
+Customer Details
+
+KYC Document Upload
+
+4.4 Account Management Module
+Business Requirements
+
+Customers may have multiple accounts
+
+Initial deposit is mandatory
+
+Account status lifecycle management
+
+Real-time balance visibility
+
+Account Types
+
+Savings Account
+
+Current Account
+
+Screens
+
+Account List by Customer
+
+Open New Account
+
+Account Details
+
+Freeze / Close Account
+
+4.5 Transaction Processing Module
+Business Requirements
+
+Tellers can initiate transactions
+
+Transaction limits must be enforced
+
+High-value transactions require approval
+
+Transactions must be atomic and auditable
+
+Transaction Types
+
+Cash Deposit
+
+Cash Withdrawal
+
+Internal Transfer
+
+Rules
+
+≤ ₹50,000 → Auto-approved
+
+₹50,000 → Manager approval required
+
+Transaction Status
+
+Pending
+
+Approved
+
+Rejected
+
+Screens
+
+Transaction Entry
+
+Transaction History
+
+Transaction Details
+
+4.6 Approval Workflow Module (Manager)
+Business Requirements
+
+Managers can view pending transactions
+
+Managers can approve or reject transactions
+
+Remarks are mandatory for approvals and rejections
+
+Screens
+
+Pending Approvals Dashboard
+
+Transaction Approval Screen
+
+4.7 Audit & Logging Module
+Business Requirements
+
+Every system action must be logged
+
+Audit logs must be immutable
+
+Auditors must have read-only access
+
+Audit Data Captured
+
+User
+
+Action performed
+
+Timestamp
+
+Old value
+
+New value
+
+IP address
+
+Screens
+
+Audit Log Search
+
+Audit Log Details
+
+4.8 Reporting Module
+Business Requirements
+
+Generate operational and compliance reports
+
+Filters by date, user, and branch
+
+Export reports in PDF and Excel formats
+
+Reports
+
+Daily Transaction Report
+
+Teller Activity Report
+
+Customer Account Summary
+
+Approval Turnaround Report
+
+Screens
+
+Report Selection
+
+Report Preview
+
+Report Download
+
+4.9 API Module (Internal)
+Business Requirements
+
+Secure internal APIs
+
+Token-based authentication
+
+Role-based authorization
+
+APIs
+
+Get Customers
+
+Get Transactions
+
+Generate Reports
+
+5. UI / UX Requirements
+General Guidelines
+
+Responsive layout implemented using custom CSS
+
+JavaScript-driven form validation and interactions
+
+Role-based menu rendering
+
+Consistent header and footer across pages
+
+Clear validation, error, and success messages
+
+Accessible and user-friendly form controls
+
+Screen Inventory
+
+Login
+
+Role-based Dashboard
+
+User Management
+
+Customer List
+
+Customer Create / Edit
+
+Account List
+
+Open Account
+
+Transaction Entry
+
+Approval Dashboard
+
+Audit Logs
+
+Reports Dashboard
+
+Report Download
+
+6. Database Requirements (Oracle)
+Key Tables
+
+USERS
+
+ROLES
+
+CUSTOMERS
+
+ACCOUNTS
+
+TRANSACTIONS
+
+TRANSACTION_APPROVALS
+
+AUDIT_LOGS
+
+DOCUMENTS
+
+Special Considerations
+
+Encrypted columns (RAW / VARCHAR)
+
+Indexes on transaction dates
+
+Foreign key constraints
+
+Oracle sequences for primary keys
+
+7. Security Requirements
+
+Password hashing via ASP.NET Core Identity
+
+AES encryption for sensitive fields
+
+HTTPS enforcement
+
+Role-based authorization
+
+Input validation (client-side and server-side)
+
+SQL injection prevention using EF Core
+
+8. Assumptions & Constraints
+Assumptions
+
+Single-branch implementation
+
+Local Oracle database
+
+Internal users only
+
+Constraints
+
+No external payment gateway integration
+
+No real-time integration with external banking systems
+
+9. Future Enhancements
+
+Active Directory / SSO integration
+
+Multi-branch support
+
+Automated report scheduler
+
+BI dashboard integration
+
+Email and notification services

@@ -1,0 +1,128 @@
+# Solution Design Document (SDD)  
+## Core Banking Operations Portal (CBOP)
+
+---
+
+## 1. Purpose
+
+This document defines the detailed technical design for implementing CBOP based on the approved Business Requirement Document (BRD).
+
+---
+
+## 2. Intended Audience
+
+- Solution Architects
+- Technical Leads
+- Developers
+- QA Team
+- Database & Infrastructure Teams
+- Security Review Teams
+
+---
+
+## 3. Architecture Overview
+
+CBOP follows a layered architecture with strict separation between presentation, business logic, domain, and infrastructure layers.
+
+---
+
+## 4. Logical Architecture Layers
+
+### 4.1 Presentation Layer
+- ASP.NET Core MVC
+- Razor Views
+- HTML, CSS, JavaScript
+- Role-based UI rendering
+
+### 4.2 Application Layer
+- Business rules
+- Transaction validation
+- Approval workflows
+- Authorization enforcement
+
+### 4.3 Domain Layer
+- Core entities (Customer, Account, Transaction)
+- Business rules & invariants
+- Enums and value objects
+
+### 4.4 Infrastructure Layer
+- EF Core (Oracle Provider)
+- Encryption services
+- File storage
+- Logging and reporting
+
+---
+
+## 5. Authentication & Authorization
+
+### Authentication
+- ASP.NET Core Identity
+- Cookie-based authentication
+- Secure password hashing (PBKDF2)
+
+### Authorization
+- Role-based access control
+- Policy-based approval checks  
+  Example policy: `HighValueTransactionApproval`
+
+---
+
+## 6. Security Design
+
+- AES encryption for PAN, Aadhaar, Account Numbers
+- Encryption at application layer
+- Secure key management via Data Protection API
+- HTTPS and CSRF protection
+- Input validation and sanitization
+
+---
+
+## 7. Transaction Workflow
+
+### Maker–Checker Model
+
+| Role | Action |
+|----|-------|
+| Teller | Initiates transaction |
+| System | Evaluates limits |
+| Manager | Approves / Rejects |
+
+### Workflow States
+- Initiated
+- Pending Approval
+- Approved
+- Rejected
+
+---
+
+## 8. Audit & Logging
+
+- Append-only audit logs
+- Dedicated AUDIT_LOG table
+- No update or delete permissions
+- Separation of audit and error logs
+
+---
+
+## 9. Reporting
+
+- Application-layer report generation
+- PDF and Excel formats
+- Preview before download
+
+---
+
+## 10. Deployment Model
+
+| Component | Deployment |
+|--------|------------|
+| Web App | IIS Express / Kestrel |
+| Database | Oracle XE |
+| Logs | File-based |
+| Documents | Secured local storage |
+
+---
+
+## 11. Conclusion
+
+The solution design ensures security, auditability, scalability, and maintainability while remaining aligned with enterprise banking standards.

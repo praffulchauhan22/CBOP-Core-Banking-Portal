@@ -1,0 +1,96 @@
+# Entity Relationship Design (ERD)  
+## Core Banking Operations Portal (CBOP)
+
+---
+
+## 1. Core Entities
+
+### USERS
+- UserId (PK)
+- Username
+- Email
+- PasswordHash
+- Status
+- CreatedDate
+
+### ROLES
+- RoleId (PK)
+- RoleName
+
+### USER_ROLES
+- UserId (FK)
+- RoleId (FK)
+
+---
+
+### CUSTOMERS
+- CustomerId (PK)
+- FullName
+- DateOfBirth
+- PAN (Encrypted)
+- Aadhaar (Encrypted)
+- MobileNumber
+- RiskCategory
+- Status
+
+---
+
+### ACCOUNTS
+- AccountId (PK)
+- CustomerId (FK)
+- AccountType
+- Balance
+- Status
+- CreatedDate
+
+---
+
+### TRANSACTIONS
+- TransactionId (PK)
+- AccountId (FK)
+- TransactionType
+- Amount
+- Status
+- CreatedBy
+- CreatedDate
+
+---
+
+### TRANSACTION_APPROVALS
+- ApprovalId (PK)
+- TransactionId (FK)
+- ManagerId (FK)
+- Decision
+- Remarks
+- DecisionDate
+
+---
+
+### AUDIT_LOGS
+- AuditId (PK)
+- UserId
+- Action
+- EntityName
+- OldValue
+- NewValue
+- Timestamp
+- IPAddress
+
+---
+
+### DOCUMENTS
+- DocumentId (PK)
+- CustomerId (FK)
+- FileName
+- FilePath
+- UploadedDate
+
+---
+
+## 2. Relationships
+
+- USER ↔ ROLE (Many-to-Many)
+- CUSTOMER → ACCOUNT (One-to-Many)
+- ACCOUNT → TRANSACTION (One-to-Many)
+- TRANSACTION → APPROVAL (One-to-One)
+- CUSTOMER → DOCUMENT (One-to-Many)
