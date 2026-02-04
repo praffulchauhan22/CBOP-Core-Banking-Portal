@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="CBOP.API/CBOP.API.csproj" />
+  <Project Path="CBOP.Application/CBOP.Application.csproj" />
+  <Project Path="CBOP.Domain/CBOP.Domain.csproj" />
+  <Project Path="CBOP.Infrastructure/CBOP.Infrastructure.csproj" />
+  <Project Path="CBOP.Shared/CBOP.Shared.csproj" />
+  <Project Path="CBOP.Web/CBOP.Web.csproj" />
+</Solution>
